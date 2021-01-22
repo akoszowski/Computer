@@ -12,9 +12,9 @@ public:
     std::string get_id() const;
 
 private:
-    std::string _id;
+    const std::string _id;
 
-    constexpr bool is_valid(std::string id);
+    constexpr void is_valid(const char *id);
 };
 
 // FIXME: w liściach dałem normalne dtor-y

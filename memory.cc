@@ -30,7 +30,7 @@ void Memory::set_val(mem_t *adr, word_t newVal) {
     *adr = newVal;
 }
 
-word_t *Memory::get_val(mem_t *adr) const {
+const word_t *Memory::get_val(mem_t *adr) const {
     if (*adr >= mem_size)
         throw IndexOutOfBound();
     return &memory[*adr];
@@ -44,7 +44,7 @@ void Memory::add_variable(std::string id, word_t val) {
     aliases_count++;
 }
 
-word_t *Memory::find_variable(std::string id) const {
+const word_t *Memory::find_variable(std::string id) const {
     if (aliases.find(id) == aliases.end())
         throw InvalidIdentifier();
     return aliases.find(id)->second;

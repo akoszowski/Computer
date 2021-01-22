@@ -14,13 +14,13 @@ public:
 
     ~Computer() = default;
 
-    void boot(program p);
+    void boot(program &p);
 
     void memory_dump(std::ostream &os) const;
 
 private:
-    Memory *memory;
-    Processor *proc;
+    Memory memory;
+    Processor processor;
 };
 
 #endif /* COMPUTER_H */

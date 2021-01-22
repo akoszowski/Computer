@@ -4,10 +4,10 @@
 
 Computer::Computer(mem_t size) : memory(size), processor() {}
 
-void Computer::boot(program p) {
-	processor.execute(p);
+void Computer::boot(program &p) {
+	processor.execute(p, &memory);
 }
 
-void Computer::memory_dump(std::ostream &os) {
+void Computer::memory_dump(std::ostream &os) const {
 	memory.memory_dump(os);
 }

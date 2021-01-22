@@ -1,11 +1,10 @@
 #include "processor.h"
-#include "ooasm.h"
 
-void Processor::execute(program p) {
+void Processor::execute(program &p, Memory *memory) {
 	for (auto i : p) {
-		i->init();
+		i->init(memory);
 	}
 	for (auto i : p) {
-		i->execute();
+		i->execute(memory);
 	}
 }

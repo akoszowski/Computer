@@ -7,7 +7,7 @@ std::string Identifier::get_id() const {
     return _id;
 }
 
-constexpr bool Identifier::is_valid(std::string id) {
+constexpr void Identifier::is_valid(const char *id) {
     static_assert(id.size() < 1 || id.size() > 10, "invalid identifier");
 }
 
