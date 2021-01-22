@@ -9,29 +9,28 @@ using program = std::vector<Instruction*>;
 // Musimy opakować nasze klasy, dzięki zastosowaniu wskaźników możemy sensownie
 // wykorzystać naszą hierarchię klas, wpp slicing by na to nie pozwołił.
 
-// FIXME: wywalić
-constexpr RValue *num(word_t val);
+RValue *num(word_t val);
 
-constexpr RValue *lea(const char* id);
+RValue *lea(const char* id);
 
-constexpr LValue *mem(RValue *addr);
+LValue *mem(RValue *addr);
 
-constexpr Instruction *data(const char *id, Num val);
+Instruction *data(const char *id, Num val);
 
-constexpr Instruction *mov(LValue *dst, RValue *src);
+Instruction *mov(LValue *dst, RValue *src);
 
-constexpr Instruction *add(LValue *arg1, RValue *arg2);
+Instruction *add(LValue *arg1, RValue *arg2);
 
-constexpr Instruction *inc(LValue *arg);
+Instruction *inc(LValue *arg);
 
-constexpr Instruction *sub(LValue *arg1, RValue *arg2);
+Instruction *sub(LValue *arg1, RValue *arg2);
 
-constexpr Instruction *dec(LValue *arg);
+Instruction *dec(LValue *arg);
 
-constexpr Instruction *one(LValue *arg);
+Instruction *one(LValue *arg);
 
-constexpr Instruction *onez(LValue *arg);
+Instruction *onez(LValue *arg);
 
-constexpr Instruction *ones(LValue *arg);
+Instruction *ones(LValue *arg);
 
 #endif /* OOASM_H */

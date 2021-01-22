@@ -3,19 +3,19 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <utility>
 #include <vector>
 #include <map>
 
 using word_t = int64_t;
 using mem_t = u_int64_t;
 using vector_t = std::vector<word_t>;
-using map_t = std::map<std::string, mem_t>;
+using map_t = std::map<std::string, mem_t*>;
 
-// FIXME: tu na pewno będzie dodać parę metod, wyjdzie w praniu
 class Memory {
 public:
     // FIXME: tu trzeba pamiętać o rozbieżności signed vs unsigned
-    Memory(mem_t size);
+    explicit Memory(mem_t size);
 
     void set_val(mem_t *adr, word_t newVal);
 
@@ -23,9 +23,9 @@ public:
 
     void add_variable(std::string id, word_t val);
 
-    word_t *find_variable(std::string id);
+    word_t *find_variable(std::string id) const;
 
-    void memory_dump(std::ostream& os) const;
+    void memory_dump(std::ostream &os) const;
 
 private:
     vector_t memory;
@@ -37,4 +37,5 @@ private:
     bool ZF;
     bool SF;
 };
+
 #endif //MEMORY_H

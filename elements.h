@@ -7,7 +7,7 @@
 // 1-10 dowolnych znaków.
 class Identifier {
 public:
-    constexpr Identifier(const char *id);
+    constexpr explicit Identifier(const char *id);
 
     std::string get_id() const;
 
@@ -42,7 +42,7 @@ public:
 
 class Num : public RValue {
 public:
-    Num(word_t val);
+    explicit Num(word_t val);
 
     ~Num() = default;
 
@@ -51,7 +51,7 @@ public:
 
 class Lea : public RValue {
 public:
-    Lea(Identifier id);
+    explicit Lea(Identifier id);
 
     ~Lea() = default;
 
@@ -63,7 +63,7 @@ private:
 
 class Mem : public LValue {
 public:
-    Mem(RValue *addr);
+    explicit Mem(RValue *addr);
 
     ~Mem() = default;
 
@@ -81,6 +81,8 @@ public:
     virtual ~Instruction() = default;
 
     virtual void execute(Memory *memory) = 0;
+
+    virtual void init(Memory *memory) = 0;
 };
 
 class Declaration : public Instruction {
@@ -90,6 +92,8 @@ public:
     ~Declaration() = default;
 
     void execute(Memory *memory) override;
+
+    void init(Memory *memory) override;
 
 private:
     Identifier _id;
@@ -103,6 +107,8 @@ public:
     virtual ~Operation() = default;
 
     virtual void execute(Memory *memory) = 0;
+
+    void init(Memory *memory) override;
 
 protected:
     LValue *_arg1;
@@ -139,7 +145,7 @@ public:
 
 class Assignment : public Instruction {
 public:
-    Assignment(LValue *arg);
+    explicit Assignment(LValue *arg);
 
     virtual void execute(Memory *memory) = 0;
 
@@ -149,21 +155,21 @@ protected:
 
 class One : public Assignment {
 public:
-    One(LValue *arg);
+    explicit One(LValue *arg);
 
     void execute(Memory *memory) override;
 };
 
 class Onez : public Assignment {
 public:
-    Onez(LValue *arg);
+    explicit Onez(LValue *arg);
 
     void execute(Memory *memory) override;
 };
 
 class Ones : public Assignment {
 public:
-    constexpr Ones();
+    explicit Ones(LValue *arg);
 
     void execute(Memory *memory) override;
 };

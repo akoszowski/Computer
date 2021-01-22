@@ -5,12 +5,12 @@
 #include "processor.h"
 
 // TODO:
-- dokończyć implementację memory
-- implementacja computer, procesor
+//- dokończyć implementację memory
+//- implementacja computer, procesor
 
 class Computer {
 public:
-    Computer(mem_t size);
+     Computer(mem_t size);
 
     ~Computer() = default;
 

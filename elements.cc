@@ -1,11 +1,5 @@
 #include "elements.h"
 
-class InvalidIdentifier : public std::exception {
-public:
-    const char *what() const noexcept override {
-        return "invalid identifier";
-    }
-};
 
 constexpr Identifier::Identifier(const char *id) : _id(id) {};
 
@@ -40,19 +34,25 @@ Mem::Mem(RValue *addr) : _addr(addr) {};
 
 // FIXME: klasa memory powinna rzucać "index out of bound"
 word_t *Mem::evaluate(Memory *memory) {
-    _val = memory->get_val(_addr);
+    _val = memory->get_val(_addr->evaluate());
     return _val;
 }
 
 
 // FIXME: klasa memory powinna sprawdzać, czy mamy dostatecznie wiele pamięci
-Declaration::Declaration(Identifier id, Num val): _id(id), _val(val) {};
+Declaration::Declaration(Identifier id, Num val): _id(id), _val(val) {
+    memory->add_variable(_id.get_id(), _val.evaluate());
+};
 
-void Declaration::execute(Memory *memory) {
+void Declaration::execute(Memory *memory) {return;};
+
+void Declaration::init(Memory *memory) {
     memory->add_variable(_id.get_id(), _val.evaluate());
 }
 
 Operation::Operation(LValue *arg1, RValue *arg2): _arg1(arg1), _arg2(arg2) {};
+
+void Operation::init(Memory *memory) {return;}
 
 Mov::Mov(LValue *arg1, RValue *arg2): Operation(arg1, arg2) {};
 
