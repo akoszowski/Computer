@@ -9,7 +9,7 @@ using program = std::vector<Instruction*>;
 // Musimy opakować nasze klasy, dzięki zastosowaniu wskaźników możemy sensownie
 // wykorzystać naszą hierarchię klas, wpp slicing by na to nie pozwołił.
 
-
+// FIXME: wywalić
 constexpr RValue *num(word_t val);
 
 constexpr RValue *lea(const char* id);

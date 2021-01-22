@@ -27,6 +27,7 @@ word_t *Num::evaluate(Memory *memory) {
 
 Lea::Lea(Identifier id) : _id(id) {};
 
+// FIXME: class Memory powinna rzucać wszelakie wyjątki
 word_t *Lea::evaluate(Memory *memory) {
     if ((_val = memory->find_variable(_id.get_id())) != nullptr) {
         return _val;

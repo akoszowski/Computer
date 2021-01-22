@@ -4,6 +4,10 @@
 #include "memory.h"
 #include "processor.h"
 
+// TODO:
+- dokończyć implementację memory
+- implementacja computer, procesor
+
 class Computer {
 public:
     Computer(mem_t size);
