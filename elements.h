@@ -21,7 +21,7 @@ private:
 // FIXME: Num  i Lea zwracają word_t de facto, Mem z kolei adres, czyli word_t*.
 class RValue {
 public:
-    constexpr RValue();
+    RValue() = default;
 
     virtual ~RValue() = default;
 
@@ -33,7 +33,7 @@ protected:
 
 class LValue : public RValue {
 public:
-    constexpr LValue();
+    LValue() = default;
 
     virtual ~LValue() = default;
 
@@ -42,7 +42,7 @@ public:
 
 class Num : public RValue {
 public:
-    constexpr Num(word_t val);
+    Num(word_t val);
 
     ~Num() = default;
 
@@ -51,7 +51,7 @@ public:
 
 class Lea : public RValue {
 public:
-    constexpr Lea(Identifier id);
+    Lea(Identifier id);
 
     ~Lea() = default;
 
@@ -63,7 +63,7 @@ private:
 
 class Mem : public LValue {
 public:
-    constexpr Mem(RValue *addr);
+    Mem(RValue *addr);
 
     ~Mem() = default;
 
@@ -76,7 +76,7 @@ private:
 
 class Instruction {
 public:
-    constexpr Instruction();
+    Instruction() = default;
 
     virtual ~Instruction() = default;
 
@@ -85,7 +85,7 @@ public:
 
 class Declaration : public Instruction {
 public:
-    constexpr Declaration(Identifier id, Num val);
+    Declaration(Identifier id, Num val);
 
     ~Declaration() = default;
 
@@ -98,7 +98,7 @@ private:
 
 class Operation : public Instruction {
 public:
-    constexpr Operation(LValue *arg1, RValue *arg2);
+    Operation(LValue *arg1, RValue *arg2);
 
     virtual ~Operation() = default;
 
@@ -111,7 +111,7 @@ protected:
 
 class Mov: public Operation {
 public:
-    constexpr Mov();
+    Mov(LValue *arg1, RValue *arg2);
 
     ~Mov() = default;
 
@@ -121,7 +121,7 @@ public:
 // FIXME tu nie wiem do końca czy takie constructory będą ok, czy może być default???
 class Add : public Operation {
 public:
-    constexpr Add();
+    Add(LValue *arg1, RValue *arg2);
 
     ~Add() = default;
 
@@ -130,7 +130,7 @@ public:
 
 class Sub : public Operation {
 public:
-    constexpr Sub();
+    Sub(LValue *arg1, RValue *arg2);
 
     ~Sub() = default;
 
@@ -139,7 +139,7 @@ public:
 
 class Assignment : public Instruction {
 public:
-    constexpr Assignment(LValue *arg);
+    Assignment(LValue *arg);
 
     virtual void execute(Memory *memory) = 0;
 
@@ -149,14 +149,14 @@ protected:
 
 class One : public Assignment {
 public:
-    constexpr One();
+    One(LValue *arg);
 
     void execute(Memory *memory) override;
 };
 
 class Onez : public Assignment {
 public:
-    constexpr Onez();
+    Onez(LValue *arg);
 
     void execute(Memory *memory) override;
 };

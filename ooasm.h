@@ -12,7 +12,7 @@ using program = std::vector<Instruction*>;
 
 constexpr RValue *num(word_t val);
 
-constexpr RValue *lea(Identifier id);
+constexpr RValue *lea(const char* id);
 
 constexpr LValue *mem(RValue *addr);
 

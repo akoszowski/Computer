@@ -19,9 +19,13 @@ public:
 
     void set_val(mem_t *adr, word_t newVal);
 
-    word_t get_val(mem_t *adr);
+    word_t *get_val(mem_t *adr) const;
 
-    void memory_dump(std::ostream& os);
+    void add_variable(std::string id, word_t val);
+
+    word_t *find_variable(std::string id);
+
+    void memory_dump(std::ostream& os) const;
 
 private:
     vector_t memory;

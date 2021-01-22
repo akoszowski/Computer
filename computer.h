@@ -12,7 +12,7 @@ public:
 
     void boot(program p);
 
-    void memory_dump(std::ostream &os);
+    void memory_dump(std::ostream &os) const;
 
 private:
     Memory *memory;
