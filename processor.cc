@@ -1,5 +1,5 @@
-#include <processor.h>
-#include <ooasm.h>
+#include "processor.h"
+#include "ooasm.h"
 
 void Processor::execute(program p) {
 	for (auto i : p) {
