@@ -1,6 +1,22 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
+#include "memory.h"
+#include "processor.h"
 
+class Computer {
+public:
+    Computer(mem_t size);
+
+    ~Computer() = default;
+
+    void boot(program p);
+
+    void memory_dump(std::ostream &os);
+
+private:
+    Memory *memory;
+    Processor *proc;
+};
 
 #endif /* COMPUTER_H */

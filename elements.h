@@ -42,7 +42,7 @@ public:
 
 class Num : public RValue {
 public:
-    constexpr Num(word_t n);
+    constexpr Num(word_t val);
 
     ~Num() = default;
 
@@ -63,14 +63,14 @@ private:
 
 class Mem : public LValue {
 public:
-    constexpr Mem(RValue addr);
+    constexpr Mem(RValue *addr);
 
     ~Mem() = default;
 
     word_t *evaluate(Memory *memory) override;
 
 private:
-    RValue _addr;
+    RValue *_addr;
 };
 
 
@@ -98,15 +98,24 @@ private:
 
 class Operation : public Instruction {
 public:
-    constexpr Operation(LValue arg1, RValue arg2);
+    constexpr Operation(LValue *arg1, RValue *arg2);
 
     virtual ~Operation() = default;
 
     virtual void execute(Memory *memory) = 0;
 
-private:
-    LValue _arg1;
-    RValue _arg2;
+protected:
+    LValue *_arg1;
+    RValue *_arg2;
+};
+
+class Mov: public Operation {
+public:
+    constexpr Mov();
+
+    ~Mov() = default;
+
+    void execute(Memory *memory) override;
 };
 
 // FIXME tu nie wiem do końca czy takie constructory będą ok, czy może być default???
@@ -119,7 +128,7 @@ public:
     void execute(Memory *memory) override;
 };
 
-class Sub: public Operation {
+class Sub : public Operation {
 public:
     constexpr Sub();
 
@@ -128,33 +137,31 @@ public:
     void execute(Memory *memory) override;
 };
 
-//FIXME using dla inc i dec
-
-class Assignment: public Instruction {
+class Assignment : public Instruction {
 public:
-    constexpr Assignment(LValue arg);
+    constexpr Assignment(LValue *arg);
 
     virtual void execute(Memory *memory) = 0;
 
-private:
-    LValue _arg;
+protected:
+    LValue *_arg;
 };
 
-class One: public Assignment {
+class One : public Assignment {
 public:
     constexpr One();
 
     void execute(Memory *memory) override;
 };
 
-class Onez: public Assignment {
+class Onez : public Assignment {
 public:
     constexpr Onez();
 
     void execute(Memory *memory) override;
 };
 
-class Ones: public Assignment {
+class Ones : public Assignment {
 public:
     constexpr Ones();
 
