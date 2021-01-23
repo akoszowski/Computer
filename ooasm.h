@@ -9,13 +9,13 @@ using program = std::vector<Instruction*>;
 // Musimy opakować nasze klasy, dzięki zastosowaniu wskaźników możemy sensownie
 // wykorzystać naszą hierarchię klas, wpp slicing by na to nie pozwołił.
 
-RValue *num(word_t val);
+Num *num(word_t val);
 
 RValue *lea(const char* id);
 
 LValue *mem(RValue *addr);
 
-Instruction *data(const char *id, Num val);
+Instruction *data(const char *id, Num *val);
 
 Instruction *mov(LValue *dst, RValue *src);
 

@@ -7,14 +7,14 @@
 // 1-10 dowolnych znaków.
 class Identifier {
 public:
-    constexpr explicit Identifier(const char *id);
+    explicit Identifier(const char *id);
 
-    std::string get_id() const;
+    const char *get_id() const;
 
 private:
-    const std::string _id;
+    const char *_id;
 
-    constexpr void is_valid(const char *id);
+    bool is_valid();
 };
 
 // FIXME: w liściach dałem normalne dtor-y
@@ -25,10 +25,10 @@ public:
 
     virtual ~RValue() = default;
 
-    virtual word_t *evaluate(Memory *memory) = 0;
+    virtual const word_t *evaluate(Memory *memory) = 0;
 
 protected:
-    word_t *_val;
+    const word_t *_val;
 };
 
 class LValue : public RValue {
@@ -37,7 +37,7 @@ public:
 
     virtual ~LValue() = default;
 
-    virtual word_t *evaluate(Memory *memory) = 0;
+    virtual const word_t *evaluate(Memory *memory) = 0;
 };
 
 class Num : public RValue {
@@ -46,7 +46,7 @@ public:
 
     ~Num() = default;
 
-    word_t *evaluate(Memory *memory) override;
+    const word_t *evaluate(Memory *memory) override;
 };
 
 class Lea : public RValue {
@@ -55,7 +55,7 @@ public:
 
     ~Lea() = default;
 
-    word_t *evaluate(Memory *memory) override;
+    const word_t *evaluate(Memory *memory) override;
 
 private:
     Identifier _id;
@@ -67,7 +67,7 @@ public:
 
     ~Mem() = default;
 
-    word_t *evaluate(Memory *memory) override;
+    const word_t *evaluate(Memory *memory) override;
 
 private:
     RValue *_addr;
@@ -87,7 +87,7 @@ public:
 
 class Declaration : public Instruction {
 public:
-    Declaration(Identifier id, Num val);
+    Declaration(Identifier id, Num *val);
 
     ~Declaration() = default;
 
@@ -97,7 +97,7 @@ public:
 
 private:
     Identifier _id;
-    Num _val;
+    Num *_val;
 };
 
 class Operation : public Instruction {
@@ -115,7 +115,7 @@ protected:
     RValue *_arg2;
 };
 
-class Mov: public Operation {
+class Mov : public Operation {
 public:
     Mov(LValue *arg1, RValue *arg2);
 
@@ -148,6 +148,8 @@ public:
     explicit Assignment(LValue *arg);
 
     virtual void execute(Memory *memory) = 0;
+
+    void init(Memory *memory) override;
 
 protected:
     LValue *_arg;

@@ -1,42 +1,20 @@
 #include "memory.h"
 
-class IndexOutOfBound : std::exception {
-public:
-    const char *what() const noexcept override {
-        return "index out of bound";
-    }
-};
-
-class NotEnoughSpaceForVariables : std::exception {
-public:
-    const char *what() const noexcept override {
-        return "not enough space for variables";
-    }
-};
-
-class InvalidIdentifier : public std::exception {
-public:
-    const char *what() const noexcept override {
-        return "invalid identifier";
-    }
-};
-
-
 Memory::Memory(mem_t size) : memory(size), mem_size(size), aliases_count(0) {};
 
-void Memory::set_val(mem_t *adr, word_t newVal) {
-    if (*adr >= mem_size) //FIXME: to chyba nie jest potrzebne
+void Memory::set_val(const word_t *adr, word_t newVal) {
+    if(!valid_address(adr))
         throw IndexOutOfBound();
-    *adr = newVal;
+    memory[*adr] = newVal;
 }
 
-const word_t *Memory::get_val(mem_t *adr) const {
-    if (*adr >= mem_size)
+const word_t *Memory::get_val(const word_t *adr) const {
+    if (!valid_address(adr))
         throw IndexOutOfBound();
     return &memory[*adr];
 }
 
-void Memory::add_variable(std::string id, word_t val) {
+void Memory::add_variable(const char *id, word_t val) {
     if (aliases_count == mem_size)
         throw NotEnoughSpaceForVariables();
     memory[aliases_count] = val;
@@ -44,15 +22,35 @@ void Memory::add_variable(std::string id, word_t val) {
     aliases_count++;
 }
 
-const word_t *Memory::find_variable(std::string id) const {
+const word_t *Memory::find_variable(const char *id) const {
     if (aliases.find(id) == aliases.end())
         throw InvalidIdentifier();
     return aliases.find(id)->second;
+}
+
+void Memory::set_ZF(bool val) {
+    ZF = val;
+}
+
+bool Memory::get_ZF() const {
+    return ZF;
+}
+
+void Memory::set_SF(bool val) {
+    SF = val;
+}
+
+bool Memory::get_SF() const {
+    return SF;
 }
 
 void Memory::memory_dump(std::ostream &os) const {
     for (auto x: memory) {
         os << x << " ";
     }
+}
+
+bool Memory::valid_address(const word_t *adr) const {
+    return (*adr < (word_t)mem_size && *adr >= 0);
 }
 
