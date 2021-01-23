@@ -26,9 +26,6 @@ public:
     virtual ~RValue() = default;
 
     virtual const word_t *evaluate(Memory *memory) = 0;
-
-protected:
-    const word_t *_val;
 };
 
 class LValue : public RValue {
@@ -47,6 +44,9 @@ public:
     ~Num() = default;
 
     const word_t *evaluate(Memory *memory) override;
+
+private:
+    word_t _val;
 };
 
 class Lea : public RValue {

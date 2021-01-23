@@ -15,26 +15,22 @@ bool Identifier::is_valid() {
     return (len >= 1 && len <= 10);
 }
 
-Num::Num(word_t val) {
-    _val = &val;
-};
+Num::Num(word_t val): _val(val) {};
 
 const word_t *Num::evaluate(Memory *memory) {
-    return _val;
+    return &_val;
 }
 
 Lea::Lea(Identifier id) : _id(id) {};
 
 const word_t *Lea::evaluate(Memory *memory) {
-    _val = memory->find_variable(_id.get_id());
-    return _val;
+    return memory->find_variable(_id.get_id());
 }
 
 Mem::Mem(RValue *addr) : _addr(addr) {};
 
 const word_t *Mem::evaluate(Memory *memory) {
-    _val = memory->get_val(_addr->evaluate(memory));
-    return _val;
+    return memory->get_val(_addr->evaluate(memory));
 }
 
 Declaration::Declaration(Identifier id, Num *val): _id(id), _val(val) {};
