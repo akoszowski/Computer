@@ -2,35 +2,42 @@
 #define OOASM_H
 
 #include "elements.h"
+#include <memory>
+
 
 //FIXME: póki co, być może trzeba będzie to zmienić
-using program = std::vector<Instruction*>;
+using Num_ptr = std::shared_ptr<Num>;
+using RVal_ptr = std::shared_ptr<RValue>;
+using LVal_ptr = std::shared_ptr<LValue>;
+using Instr_ptr = std::shared_ptr<Instruction>;
+
+using program = std::vector<Instr_ptr>;
 
 // Musimy opakować nasze klasy, dzięki zastosowaniu wskaźników możemy sensownie
 // wykorzystać naszą hierarchię klas, wpp slicing by na to nie pozwołił.
 
-Num *num(word_t val);
+Num_ptr num(word_t val);
 
-RValue *lea(const char* id);
+RVal_ptr lea(const char* id);
 
-LValue *mem(RValue *addr);
+LVal_ptr mem(RVal_ptr addr);
 
-Instruction *data(const char *id, Num *val);
+Instr_ptr data(const char *id, Num_ptr val);
 
-Instruction *mov(LValue *dst, RValue *src);
+Instr_ptr mov(LVal_ptr dst, RVal_ptr src);
 
-Instruction *add(LValue *arg1, RValue *arg2);
+Instr_ptr add(LVal_ptr arg1, RVal_ptr arg2);
 
-Instruction *inc(LValue *arg);
+Instr_ptr inc(LVal_ptr arg);
 
-Instruction *sub(LValue *arg1, RValue *arg2);
+Instr_ptr sub(LVal_ptr arg1, RVal_ptr arg2);
 
-Instruction *dec(LValue *arg);
+Instr_ptr dec(LVal_ptr arg);
 
-Instruction *one(LValue *arg);
+Instr_ptr one(LVal_ptr arg);
 
-Instruction *onez(LValue *arg);
+Instr_ptr onez(LVal_ptr arg);
 
-Instruction *ones(LValue *arg);
+Instr_ptr ones(LVal_ptr arg);
 
 #endif /* OOASM_H */

@@ -27,13 +27,13 @@ const word_t *Lea::evaluate(Memory *memory) {
     return memory->find_variable(_id.get_id());
 }
 
-Mem::Mem(RValue *addr) : _addr(addr) {};
+Mem::Mem(RVal_ptr addr) : _addr(addr) {};
 
 const word_t *Mem::evaluate(Memory *memory) {
     return memory->get_val(_addr->evaluate(memory));
 }
 
-Declaration::Declaration(Identifier id, Num *val): _id(id), _val(val) {};
+Declaration::Declaration(Identifier id, Num_ptr val): _id(id), _val(val) {};
 
 void Declaration::execute(Memory *memory) {};
 
@@ -41,17 +41,17 @@ void Declaration::init(Memory *memory) {
     memory->add_variable(_id.get_id(), *_val->evaluate(memory));
 }
 
-Operation::Operation(LValue *arg1, RValue *arg2): _arg1(arg1), _arg2(arg2) {};
+Operation::Operation(LVal_ptr arg1, RVal_ptr arg2): _arg1(arg1), _arg2(arg2) {};
 
 void Operation::init(Memory *memory) {}
 
-Mov::Mov(LValue *arg1, RValue *arg2): Operation(arg1, arg2) {};
+Mov::Mov(LVal_ptr arg1, RVal_ptr arg2): Operation(arg1, arg2) {};
 
 void Mov::execute(Memory *memory) {
     memory->set_val(_arg1->evaluate(memory), *_arg2->evaluate(memory));
 }
 
-Add::Add(LValue *arg1, RValue *arg2): Operation(arg1, arg2) {};
+Add::Add(LVal_ptr arg1, RVal_ptr arg2): Operation(arg1, arg2) {};
 
 void Add::execute(Memory *memory) {
     word_t val = *_arg1->evaluate(memory) + *_arg2->evaluate(memory);
@@ -60,7 +60,7 @@ void Add::execute(Memory *memory) {
     memory->set_val(_arg1->evaluate(memory), *_arg1->evaluate(memory) + *_arg2->evaluate(memory));
 }
 
-Sub::Sub(LValue *arg1, RValue *arg2): Operation(arg1, arg2) {};
+Sub::Sub(LVal_ptr arg1, RVal_ptr arg2): Operation(arg1, arg2) {};
 
 void Sub::execute(Memory *memory) {
     word_t val = *_arg1->evaluate(memory) - *_arg2->evaluate(memory);
@@ -69,24 +69,24 @@ void Sub::execute(Memory *memory) {
     memory->set_val(_arg1->evaluate(memory), val);
 }
 
-Assignment::Assignment(LValue *arg): _arg(arg) {};
+Assignment::Assignment(LVal_ptr arg): _arg(arg) {};
 
 void Assignment::init(Memory *memory) {}
 
-One::One(LValue *arg): Assignment(arg) {};
+One::One(LVal_ptr arg): Assignment(arg) {};
 
 void One::execute(Memory *memory) {
     memory->set_val(_arg->evaluate(memory), *Num(1).evaluate(memory));
 }
 
-Onez::Onez(LValue *arg): Assignment(arg) {};
+Onez::Onez(LVal_ptr arg): Assignment(arg) {};
 
 void Onez::execute(Memory *memory) {
     if (memory->get_ZF())
         memory->set_val(_arg->evaluate(memory), *Num(1).evaluate(memory));
 }
 
-Ones::Ones(LValue *arg): Assignment(arg) {};
+Ones::Ones(LVal_ptr arg): Assignment(arg) {};
 
 void Ones::execute(Memory *memory) {
     if (memory->get_SF())

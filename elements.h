@@ -28,6 +28,8 @@ public:
     virtual const word_t *evaluate(Memory *memory) = 0;
 };
 
+using RVal_ptr = std::shared_ptr<RValue>;
+
 class LValue : public RValue {
 public:
     LValue() = default;
@@ -36,6 +38,8 @@ public:
 
     virtual const word_t *evaluate(Memory *memory) = 0;
 };
+
+using LVal_ptr = std::shared_ptr<LValue>;
 
 class Num : public RValue {
 public:
@@ -48,6 +52,8 @@ public:
 private:
     word_t _val;
 };
+
+using Num_ptr = std::shared_ptr<Num>;
 
 class Lea : public RValue {
 public:
@@ -63,14 +69,14 @@ private:
 
 class Mem : public LValue {
 public:
-    explicit Mem(RValue *addr);
+    explicit Mem(RVal_ptr addr);
 
     ~Mem() = default;
 
     const word_t *evaluate(Memory *memory) override;
 
 private:
-    RValue *_addr;
+    RVal_ptr _addr;
 };
 
 
@@ -85,9 +91,11 @@ public:
     virtual void init(Memory *memory) = 0;
 };
 
+using Instr_ptr = std::shared_ptr<Instruction>;
+
 class Declaration : public Instruction {
 public:
-    Declaration(Identifier id, Num *val);
+    Declaration(Identifier id, Num_ptr val);
 
     ~Declaration() = default;
 
@@ -97,12 +105,12 @@ public:
 
 private:
     Identifier _id;
-    Num *_val;
+    Num_ptr _val;
 };
 
 class Operation : public Instruction {
 public:
-    Operation(LValue *arg1, RValue *arg2);
+    Operation(LVal_ptr arg1, RVal_ptr arg2);
 
     virtual ~Operation() = default;
 
@@ -111,13 +119,13 @@ public:
     void init(Memory *memory) override;
 
 protected:
-    LValue *_arg1;
-    RValue *_arg2;
+    LVal_ptr _arg1;
+    RVal_ptr _arg2;
 };
 
 class Mov : public Operation {
 public:
-    Mov(LValue *arg1, RValue *arg2);
+    Mov(LVal_ptr arg1, RVal_ptr arg2);
 
     ~Mov() = default;
 
@@ -127,7 +135,7 @@ public:
 // FIXME tu nie wiem do końca czy takie constructory będą ok, czy może być default???
 class Add : public Operation {
 public:
-    Add(LValue *arg1, RValue *arg2);
+    Add(LVal_ptr arg1, RVal_ptr arg2);
 
     ~Add() = default;
 
@@ -136,7 +144,7 @@ public:
 
 class Sub : public Operation {
 public:
-    Sub(LValue *arg1, RValue *arg2);
+    Sub(LVal_ptr arg1, RVal_ptr arg2);
 
     ~Sub() = default;
 
@@ -145,33 +153,33 @@ public:
 
 class Assignment : public Instruction {
 public:
-    explicit Assignment(LValue *arg);
+    explicit Assignment(LVal_ptr arg);
 
     virtual void execute(Memory *memory) = 0;
 
     void init(Memory *memory) override;
 
 protected:
-    LValue *_arg;
+    LVal_ptr _arg;
 };
 
 class One : public Assignment {
 public:
-    explicit One(LValue *arg);
+    explicit One(LVal_ptr arg);
 
     void execute(Memory *memory) override;
 };
 
 class Onez : public Assignment {
 public:
-    explicit Onez(LValue *arg);
+    explicit Onez(LVal_ptr arg);
 
     void execute(Memory *memory) override;
 };
 
 class Ones : public Assignment {
 public:
-    explicit Ones(LValue *arg);
+    explicit Ones(LVal_ptr arg);
 
     void execute(Memory *memory) override;
 };

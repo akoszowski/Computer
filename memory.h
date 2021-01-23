@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <memory>
 
 using word_t = int64_t;
 using mem_t = u_int64_t;
