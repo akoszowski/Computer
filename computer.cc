@@ -5,6 +5,7 @@
 Computer::Computer(mem_t size) : memory(size), processor() {}
 
 void Computer::boot(program &p) {
+	memory.memory_clear();
 	processor.execute(p, &memory);
 }
 

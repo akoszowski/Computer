@@ -1,4 +1,5 @@
 #include "elements.h"
+#include <iostream>
 
 
 Identifier::Identifier(const char *id): _id(id) {
@@ -89,8 +90,9 @@ void Onez::execute(Memory *memory) {
 Ones::Ones(LVal_ptr arg): Assignment(arg) {};
 
 void Ones::execute(Memory *memory) {
-    if (memory->get_SF())
+    if (memory->get_SF()) {
         memory->set_val(_arg->evaluate(memory), *Num(1).evaluate(memory));
+	}
 }
 
 

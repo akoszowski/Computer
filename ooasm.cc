@@ -1,5 +1,5 @@
 #include "ooasm.h"
-
+#include <iostream>
 
 Num_ptr num(word_t val) {
     Num_ptr num_ptr = std::make_shared<Num>(val);

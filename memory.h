@@ -10,17 +10,18 @@
 
 using word_t = int64_t;
 using mem_t = u_int64_t;
+using word_ptr = std::shared_ptr<word_t>;
 using vector_t = std::vector<word_t>;
-using map_t = std::map<const char *, word_t *>;
+using map_t = std::map<const char *, word_ptr>;
 
-class IndexOutOfBound : std::exception {
+class IndexOutOfBound : public std::exception {
 public:
     const char *what() const noexcept override {
         return "index out of bound";
     }
 };
 
-class NotEnoughSpaceForVariables : std::exception {
+class NotEnoughSpaceForVariables : public std::exception {
 public:
     const char *what() const noexcept override {
         return "not enough space for variables";
@@ -57,6 +58,8 @@ public:
     bool get_SF() const;
 
     void memory_dump(std::ostream &os) const;
+    
+    void memory_clear();
 
 private:
     vector_t memory;
