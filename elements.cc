@@ -41,7 +41,6 @@ void Declaration::init(Memory *memory) {
     memory->add_variable(_id.get_id(), *_val->evaluate(memory));
 }
 
-// FIXME: funkcja protected ustawiająca flagi
 Operation::Operation(LVal_ptr arg1, RVal_ptr arg2): _arg1(arg1), _arg2(arg2) {};
 
 void Operation::init([[maybe_unused]] Memory *memory) {}

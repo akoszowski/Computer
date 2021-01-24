@@ -122,11 +122,11 @@ public:
 
     void init(Memory *memory) override;
 
-    void set_flags(word_t val, Memory *memory);
-
 protected:
     const LVal_ptr _arg1;
     const RVal_ptr _arg2;
+
+    void set_flags(word_t val, Memory *memory);
 };
 
 // Class enabling operation of copying value from source [arg1]
