@@ -18,8 +18,10 @@ void Memory::add_variable(const char *id, word_t val) {
     if (aliases_count == mem_size)
         throw NotEnoughSpaceForVariables();
     memory[aliases_count] = val;
-    word_ptr el = std::make_shared<word_t>(word_t(aliases_count));
-    aliases.insert(std::make_pair(id, el));
+    if (aliases.find(id) == aliases.end()) {
+        word_ptr el = std::make_shared<word_t>(word_t(aliases_count));
+        aliases.insert(std::make_pair(id, el));
+    }
     aliases_count++;
 }
 
@@ -55,7 +57,6 @@ void Memory::memory_clear() {
 	std::fill(memory.begin(), memory.end(), 0);
 	aliases.clear();
 	aliases_count = 0;
-	ZF = SF = false;
 }
 
 bool Memory::valid_address(const word_t *adr) const {
