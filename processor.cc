@@ -1,10 +1,10 @@
 #include "processor.h"
 
 void Processor::execute(program &p, Memory *memory) {
-	for (auto i : p) {
-		i->init(memory);
+	for (auto const &instr : p) {
+		instr->init(memory);
 	}
-	for (auto i : p) {
-		i->execute(memory);
+	for (auto const &instr : p) {
+		instr->execute(memory);
 	}
 }

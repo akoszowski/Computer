@@ -9,7 +9,7 @@
 #include <memory>
 
 using word_t = int64_t;
-using mem_t = u_int64_t;
+using mem_t = uint64_t;
 using word_ptr = std::shared_ptr<word_t>;
 using vector_t = std::vector<word_t>;
 using map_t = std::map<const char *, word_ptr>;
@@ -36,9 +36,11 @@ public:
 };
 
 
+// Class representing memory of the computer with x64 architecture.
+// It enables user to set / get content of memory cells, read zero or sign flags
+// but also to map variable identifiers to corresponding them memory cells.
 class Memory {
 public:
-    // FIXME: tu trzeba pamiętać o rozbieżności signed vs unsigned
     explicit Memory(mem_t size);
 
     void set_val(const word_t *adr, word_t val);
@@ -66,12 +68,10 @@ private:
     map_t aliases;
     mem_t mem_size;
     mem_t aliases_count;
-
-    //FIXME: flagi raczej tutaj
     bool ZF;
     bool SF;
 
     bool valid_address(const word_t *adr) const;
 };
 
-#endif //MEMORY_H
+#endif /* MEMORY_H */

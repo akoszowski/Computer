@@ -1,11 +1,11 @@
 #include "memory.h"
-#include <iostream>
 
-Memory::Memory(mem_t size) : memory(size), mem_size(size), aliases_count(0), ZF(false), SF(false) {};
+Memory::Memory(mem_t size)
+    : memory(size), mem_size(size), aliases_count(0), ZF(false), SF(false) {};
 
-void Memory::set_val(const word_t *adr, word_t newVal) {
+void Memory::set_val(const word_t *adr, word_t val) {
 	word_t ind = adr - (&memory[0]);
-    memory[ind] = newVal;
+    memory[ind] = val;
 }
 
 const word_t *Memory::get_val(const word_t *adr) const {

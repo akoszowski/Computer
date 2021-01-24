@@ -2,10 +2,10 @@
 #define OOASM_H
 
 #include "elements.h"
-#include <memory>
 
+// This is a kind of wrapper for OOAsm elements, while using smart pointers
+// enables to effectively make use of class hierarchy without slicing errors.
 
-//FIXME: póki co, być może trzeba będzie to zmienić
 using Num_ptr = std::shared_ptr<Num>;
 using RVal_ptr = std::shared_ptr<RValue>;
 using LVal_ptr = std::shared_ptr<LValue>;
@@ -13,31 +13,28 @@ using Instr_ptr = std::shared_ptr<Instruction>;
 
 using program = std::vector<Instr_ptr>;
 
-// Musimy opakować nasze klasy, dzięki zastosowaniu wskaźników możemy sensownie
-// wykorzystać naszą hierarchię klas, wpp slicing by na to nie pozwołił.
-
 Num_ptr num(word_t val);
 
 RVal_ptr lea(const char* id);
 
-LVal_ptr mem(RVal_ptr addr);
+LVal_ptr mem(const RVal_ptr &addr);
 
-Instr_ptr data(const char *id, Num_ptr val);
+Instr_ptr data(const char *id, const Num_ptr &val);
 
-Instr_ptr mov(LVal_ptr dst, RVal_ptr src);
+Instr_ptr mov(const LVal_ptr &dst, const RVal_ptr &src);
 
-Instr_ptr add(LVal_ptr arg1, RVal_ptr arg2);
+Instr_ptr add(const LVal_ptr &arg1, const RVal_ptr &arg2);
 
-Instr_ptr inc(LVal_ptr arg);
+Instr_ptr inc(const LVal_ptr &arg);
 
-Instr_ptr sub(LVal_ptr arg1, RVal_ptr arg2);
+Instr_ptr sub(const LVal_ptr &arg1, const RVal_ptr &arg2);
 
-Instr_ptr dec(LVal_ptr arg);
+Instr_ptr dec(const LVal_ptr &arg);
 
-Instr_ptr one(LVal_ptr arg);
+Instr_ptr one(const LVal_ptr &arg);
 
-Instr_ptr onez(LVal_ptr arg);
+Instr_ptr onez(const LVal_ptr &arg);
 
-Instr_ptr ones(LVal_ptr arg);
+Instr_ptr ones(const LVal_ptr &arg);
 
 #endif /* OOASM_H */
